@@ -8,9 +8,13 @@ services:
     restart: always
     environment:
       POSTGRES_PASSWORD: admin
+    ports:
+      - 5432:5432
 
   adminer:
     image: adminer
     restart: always
+    links:
+      - booking
     ports:
-      - 8080:8080
+      - 8081:8080

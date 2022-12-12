@@ -1,7 +1,6 @@
 package eu.senla.taxibooking.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import javax.persistence.*;
 import lombok.Data;
 
 @Entity
