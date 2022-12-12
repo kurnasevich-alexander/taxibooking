@@ -1,8 +1,11 @@
 package eu.senla.taxibooking.dto;
 
+import lombok.Data;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Data
 public class BookingDTO {
 
     private Long id;
@@ -16,5 +19,5 @@ public class BookingDTO {
     private Float rating;
     private LocalDateTime createdOn;
     private LocalDateTime lastModifiedOn;
-    private List<Long> tripWaypoints;
+    private List<WaypointDTO> tripWaypoints;
 }
