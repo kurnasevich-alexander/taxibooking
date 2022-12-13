@@ -15,7 +15,7 @@ public class Waypoint {
     private String locality;
     private Double latitude;
     private Double longitude;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "booking_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "booking_id", nullable = false)
     private Booking booking;
 }

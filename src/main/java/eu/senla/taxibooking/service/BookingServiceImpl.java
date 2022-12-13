@@ -1,17 +1,17 @@
 package eu.senla.taxibooking.service;
 
 import eu.senla.taxibooking.api.service.BookingService;
-import eu.senla.taxibooking.api.service.UtilService;
 import eu.senla.taxibooking.dto.BookingDTO;
+import eu.senla.taxibooking.dto.mapper.BookingDTOMapper;
 import eu.senla.taxibooking.entity.Booking;
+import eu.senla.taxibooking.entity.Waypoint;
 import eu.senla.taxibooking.repository.BookingRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 public class BookingServiceImpl implements BookingService {
@@ -20,24 +20,24 @@ public class BookingServiceImpl implements BookingService {
     private BookingRepository bookingRepository;
 
     @Autowired
-    private ModelMapper mapper;
-
-    @Autowired
-    private UtilService utilService;
+    private BookingDTOMapper mapper;
 
     @Override
     public BookingDTO addBooking(BookingDTO bookingDTO) {
-        Booking booking = (mapper.map(bookingDTO, Booking.class));
+        Booking booking = (mapper.bookingDTOToEntity(bookingDTO));
         booking.setCreatedOn(LocalDateTime.now());
         booking.setLastModifiedOn(LocalDateTime.now());
-        return mapper.map(bookingRepository.save(booking), BookingDTO.class);
+        for (Waypoint waypoint : booking.getTripWaypoints()) {
+            waypoint.setBooking(booking);
+        }
+        return mapper.bookingToDTO(bookingRepository.save(booking));
     }
 
     @Override
     public BookingDTO updateBooking(BookingDTO bookingDTO) {
-        Booking booking = (mapper.map(bookingDTO, Booking.class));
+        Booking booking = (mapper.bookingDTOToEntity(bookingDTO));
         booking.setLastModifiedOn(LocalDateTime.now());
-        return mapper.map(bookingRepository.save(booking), BookingDTO.class);
+        return mapper.bookingToDTO(bookingRepository.save(booking));
     }
 
     @Override
@@ -48,12 +48,12 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingDTO> getAllBookings(Pageable pageable) {
-        return utilService.mapPage(bookingRepository.findAll(pageable), BookingDTO.class);
+    public Page<BookingDTO> getAllBookings(Pageable pageable) {
+        return mapper.bookingPageToDTO(bookingRepository.findAll(pageable));
     }
 
     @Override
     public BookingDTO getBooking(Long id) {
-        return mapper.map(bookingRepository.findById(id), BookingDTO.class);
+        return mapper.bookingToDTO(bookingRepository.getReferenceById(id));
     }
 }

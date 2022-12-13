@@ -34,7 +34,7 @@ public class Booking {
     private LocalDateTime createdOn;
     @Column(name = "last_modified_on")
     private LocalDateTime lastModifiedOn;
-    @OneToMany(mappedBy = "booking", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "booking", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Waypoint> tripWaypoints;
 
 }
