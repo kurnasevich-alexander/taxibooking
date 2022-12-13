@@ -7,7 +7,7 @@ services:
     image: postgres
     restart: always
     environment:
-      POSTGRES_PASSWORD: admin
+      POSTGRES_PASSWORD: root
     ports:
       - 5432:5432
 
@@ -18,3 +18,13 @@ services:
       - booking
     ports:
       - 8081:8080
+
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "5050:80"

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+<changeSet  author="Kurnasevich"  id="t1">
+    <createTable tableName="booking">
+        <column  name="id"  type="INTEGER">
+            <constraints  nullable="false"  primaryKey="true"  unique="true"/>
+        </column>
+        <column  name="passenger_name"  type="VARCHAR(255)" >
+            <constraints  nullable="false" />
+        </column>
+        <column  name="passenger_contact_number"  type="INTEGER" >
+            <constraints  nullable="false" />
+        </column>
+        <column  name="pickup_time"  type="DATE" >
+            <constraints  nullable="false" />
+        </column>
+        <column  name="asap"  type="BOOLEAN" >
+            <constraints  nullable="false" />
+        </column>
+        <column  name="waiting_time"  type="INTEGER" >
+            <constraints  nullable="false" />
+        </column>
+        <column  name="number_of_passengers"  type="INTEGER" >
+            <constraints  nullable="false" />
+        </column>
+        <column  name="price"  type="DOUBLE" >
+            <constraints  nullable="false" />
+        </column>
+        <column  name="rating"  type="FLOAT" >
+            <constraints  nullable="false" />
+        </column>
+        <column  name="created_on"  type="DATE" >
+            <constraints  nullable="false" />
+        </column>
+        <column  name="last_modified_on"  type="DATE" >
+            <constraints  nullable="false" />
+        </column>
+    </createTable>
+</changeSet>
+
+</databaseChangeLog>
