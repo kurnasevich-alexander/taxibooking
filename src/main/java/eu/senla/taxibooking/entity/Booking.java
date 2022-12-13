@@ -25,7 +25,7 @@ public class Booking {
     @Column(name = "waiting_time")
     private Integer waitingTime;
     @Column(name = "number_of_passengers")
-    private Integer numberOfPassengers;     //экономия?
+    private Integer numberOfPassengers;
     @Column(name = "price")
     private Double price;
     @Column(name = "rating")
@@ -34,7 +34,7 @@ public class Booking {
     private LocalDateTime createdOn;
     @Column(name = "last_modified_on")
     private LocalDateTime lastModifiedOn;
-    @OneToMany(mappedBy = "booking", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "booking", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Waypoint> tripWaypoints;
 
 }

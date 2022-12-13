@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 
 @Service
@@ -23,6 +24,7 @@ public class BookingServiceImpl implements BookingService {
     private BookingDTOMapper mapper;
 
     @Override
+    @Transactional
     public BookingDTO addBooking(BookingDTO bookingDTO) {
         Booking booking = (mapper.bookingDTOToEntity(bookingDTO));
         booking.setCreatedOn(LocalDateTime.now());
@@ -34,6 +36,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
+    @Transactional
     public BookingDTO updateBooking(BookingDTO bookingDTO) {
         Booking booking = (mapper.bookingDTOToEntity(bookingDTO));
         booking.setLastModifiedOn(LocalDateTime.now());
@@ -41,6 +44,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
+    @Transactional
     public void deleteBooking(Long id) {
         Booking booking = new Booking();
         booking.setId(id);

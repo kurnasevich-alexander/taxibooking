@@ -18,9 +18,7 @@
                 <constraints  nullable="false" />
             </column>
             <column  name="booking_id"  type="BIGINT">
-                <constraints nullable="false"
-                             foreignKeyName="fk_booking"
-                             references="bookings(id)"/>
+                <constraints nullable="false"/>
             </column>
         </createTable>
         <addAutoIncrement columnDataType="BIGINT"
@@ -29,6 +27,12 @@
                           schemaName="public"
                           startWith="1"
                           tableName="waypoints"/>
+        <addForeignKeyConstraint  baseColumnNames="booking_id"
+                                  baseTableName="waypoints"
+                                  constraintName="fk_booking"
+                                  onDelete="CASCADE"
+                                  referencedColumnNames="id"
+                                  referencedTableName="bookings"/>
     </changeSet>
 
 </databaseChangeLog>
