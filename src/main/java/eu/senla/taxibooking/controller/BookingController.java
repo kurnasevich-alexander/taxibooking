@@ -2,9 +2,10 @@ package eu.senla.taxibooking.controller;
 
 import eu.senla.taxibooking.api.service.BookingService;
 import eu.senla.taxibooking.dto.BookingDTO;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,9 +17,8 @@ public class BookingController {
     private BookingService bookingService;
 
     @GetMapping
-    public ResponseEntity<Page<BookingDTO>> getBookings(@RequestParam("page") int page,
-                                                        @RequestParam("size") int size) {
-        return ResponseEntity.ok(bookingService.getAllBookings(PageRequest.of(page, size)));
+    public ResponseEntity<Page<BookingDTO>> getBookings(@ParameterObject Pageable pageable) {
+        return ResponseEntity.ok(bookingService.getAllBookings(pageable));
     }
 
     @GetMapping("/{id}")

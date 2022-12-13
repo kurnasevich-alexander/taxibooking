@@ -3,6 +3,7 @@ package eu.senla.taxibooking.dto.mapper;
 import eu.senla.taxibooking.dto.BookingDTO;
 import eu.senla.taxibooking.entity.Booking;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 
@@ -22,10 +23,5 @@ public interface BookingDTOMapper {
                 .collect(Collectors.toList()), booking.getPageable(), booking.getTotalElements());
     }
 
-    default Page<Booking> bookingDTOPageToEntity(Page<BookingDTO> booking) {
-        return new PageImpl<>(booking
-                .stream()
-                .map(this::bookingDTOToEntity)
-                .collect(Collectors.toList()), booking.getPageable(), booking.getTotalElements());
-    }
+    void updateBookingFromDTO(BookingDTO dto, @MappingTarget Booking entity);
 }

@@ -13,10 +13,10 @@ xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         <column  name="passenger_name"  type="VARCHAR(255)" >
             <constraints  nullable="false" />
         </column>
-        <column  name="passenger_contact_number"  type="INTEGER" >
+        <column  name="passenger_contact_number"  type="BIGINT" >
             <constraints  nullable="false" />
         </column>
-        <column  name="pickup_time"  type="DATE" >
+        <column  name="pickup_time"  type="TIMESTAMP" >
             <constraints  nullable="false" />
         </column>
         <column  name="asap"  type="BOOLEAN" >
@@ -34,10 +34,10 @@ xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         <column  name="rating"  type="FLOAT" >
             <constraints  nullable="false" />
         </column>
-        <column  name="created_on"  type="DATE" >
+        <column  name="created_on"  type="TIMESTAMP" >
             <constraints  nullable="false" />
         </column>
-        <column  name="last_modified_on"  type="DATE" >
+        <column  name="last_modified_on"  type="TIMESTAMP" >
             <constraints  nullable="false" />
         </column>
     </createTable>

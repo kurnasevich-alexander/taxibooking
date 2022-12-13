@@ -29,18 +29,25 @@ public class BookingServiceImpl implements BookingService {
         Booking booking = (mapper.bookingDTOToEntity(bookingDTO));
         booking.setCreatedOn(LocalDateTime.now());
         booking.setLastModifiedOn(LocalDateTime.now());
-        for (Waypoint waypoint : booking.getTripWaypoints()) {
-            waypoint.setBooking(booking);
-        }
+        insertBookingIntoWaypoints(booking);
         return mapper.bookingToDTO(bookingRepository.save(booking));
     }
 
     @Override
     @Transactional
     public BookingDTO updateBooking(BookingDTO bookingDTO) {
-        Booking booking = (mapper.bookingDTOToEntity(bookingDTO));
-        booking.setLastModifiedOn(LocalDateTime.now());
+        Booking booking = bookingRepository.getReferenceById(bookingDTO.getId());
+        bookingDTO.setLastModifiedOn(LocalDateTime.now());
+        bookingDTO.setCreatedOn(booking.getCreatedOn());
+        mapper.updateBookingFromDTO(bookingDTO, booking);
+        insertBookingIntoWaypoints(booking);
         return mapper.bookingToDTO(bookingRepository.save(booking));
+    }
+
+    private void insertBookingIntoWaypoints(Booking booking) {
+        for (Waypoint waypoint : booking.getTripWaypoints()) {
+            waypoint.setBooking(booking);
+        }
     }
 
     @Override
@@ -58,6 +65,8 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public BookingDTO getBooking(Long id) {
-        return mapper.bookingToDTO(bookingRepository.getReferenceById(id));
+        return bookingRepository.findById(id)
+                .map(mapper::bookingToDTO)
+                .orElseThrow(() -> new RuntimeException("Not found"));
     }
 }
