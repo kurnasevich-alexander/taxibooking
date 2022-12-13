@@ -6,5 +6,6 @@
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
     <include file="t1-add-booking-table.xml" relativeToChangelogFile="true"/>
+    <include file="t4-add-waypoint-table.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

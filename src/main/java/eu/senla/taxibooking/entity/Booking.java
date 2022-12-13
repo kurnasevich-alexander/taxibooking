@@ -8,10 +8,11 @@ import java.util.List;
 
 @Entity
 @Data
-@Table(name = "booking")
+@Table(name = "bookings")
 public class Booking {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "passenger_name")
     private String passengerName;
@@ -33,7 +34,7 @@ public class Booking {
     private LocalDateTime createdOn;
     @Column(name = "last_modified_on")
     private LocalDateTime lastModifiedOn;
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "booking", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Waypoint> tripWaypoints;
 
 }

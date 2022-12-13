@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet  author="Kurnasevich"  id="t4">
+        <createTable tableName="waypoints">
+            <column  name="id"  type="BIGINT">
+                <constraints  nullable="false"  primaryKey="true"  unique="true"/>
+            </column>
+            <column  name="locality"  type="VARCHAR(255)" />
+            <column  name="latitude"  type="DOUBLE" >
+                <constraints  nullable="false" />
+            </column>
+            <column  name="longitude"  type="DOUBLE" >
+                <constraints  nullable="false" />
+            </column>
+            <column  name="booking_id"  type="BIGINT">
+                <constraints nullable="false"
+                             foreignKeyName="fk_booking"
+                             references="bookings(id)"/>
+            </column>
+        </createTable>
+        <addAutoIncrement columnDataType="BIGINT"
+                          columnName="id"
+                          incrementBy="1"
+                          schemaName="public"
+                          startWith="1"
+                          tableName="waypoints"/>
+    </changeSet>
+
+</databaseChangeLog>
