@@ -5,6 +5,7 @@ import eu.senla.taxibooking.dto.BookingDTO;
 import eu.senla.taxibooking.dto.mapper.BookingDTOMapper;
 import eu.senla.taxibooking.entity.Booking;
 import eu.senla.taxibooking.entity.Waypoint;
+import eu.senla.taxibooking.exception.BookingNotFoundException;
 import eu.senla.taxibooking.repository.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,6 +27,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     @Transactional
     public BookingDTO addBooking(BookingDTO bookingDTO) {
+        bookingDTO.setId(0L);
         Booking booking = (mapper.bookingDTOToEntity(bookingDTO));
         booking.setCreatedOn(LocalDateTime.now());
         booking.setLastModifiedOn(LocalDateTime.now());
@@ -36,7 +38,8 @@ public class BookingServiceImpl implements BookingService {
     @Override
     @Transactional
     public BookingDTO updateBooking(BookingDTO bookingDTO) {
-        Booking booking = bookingRepository.getReferenceById(bookingDTO.getId());
+        Booking booking = bookingRepository.findById(bookingDTO.getId())
+                .orElseThrow(() -> new BookingNotFoundException("Booking not found"));
         bookingDTO.setLastModifiedOn(LocalDateTime.now());
         bookingDTO.setCreatedOn(booking.getCreatedOn());
         mapper.updateBookingFromDTO(bookingDTO, booking);
@@ -46,6 +49,7 @@ public class BookingServiceImpl implements BookingService {
 
     private void insertBookingIntoWaypoints(Booking booking) {
         for (Waypoint waypoint : booking.getTripWaypoints()) {
+            waypoint.setId(0L);
             waypoint.setBooking(booking);
         }
     }
@@ -53,9 +57,9 @@ public class BookingServiceImpl implements BookingService {
     @Override
     @Transactional
     public void deleteBooking(Long id) {
-        Booking booking = new Booking();
-        booking.setId(id);
-        bookingRepository.delete(booking);
+        if (bookingRepository.existsById(id)) {
+            bookingRepository.deleteById(id);
+        } else throw new BookingNotFoundException("Booking not found");
     }
 
     @Override
@@ -67,6 +71,6 @@ public class BookingServiceImpl implements BookingService {
     public BookingDTO getBooking(Long id) {
         return bookingRepository.findById(id)
                 .map(mapper::bookingToDTO)
-                .orElseThrow(() -> new RuntimeException("Not found"));
+                .orElseThrow(() -> new BookingNotFoundException("Booking not found"));
     }
 }
