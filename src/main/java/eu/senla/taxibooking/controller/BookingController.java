@@ -2,6 +2,7 @@ package eu.senla.taxibooking.controller;
 
 import eu.senla.taxibooking.api.service.BookingService;
 import eu.senla.taxibooking.dto.BookingDTO;
+import lombok.RequiredArgsConstructor;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,15 +12,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-
 @RestController
 @RequestMapping("/bookings")
-@Validated
+@RequiredArgsConstructor
 public class BookingController implements BookingControllerOpenAPI {
 
     @Autowired
-    private BookingService bookingService;
+    private final BookingService bookingService;
 
     @GetMapping
     public ResponseEntity<Page<BookingDTO>> getBookings(@ParameterObject Pageable pageable) {
@@ -32,12 +31,12 @@ public class BookingController implements BookingControllerOpenAPI {
     }
 
     @PostMapping
-    public ResponseEntity<BookingDTO> addBooking(@Valid @RequestBody BookingDTO bookingDTO) {
+    public ResponseEntity<BookingDTO> addBooking(@Validated @RequestBody BookingDTO bookingDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(bookingService.addBooking(bookingDTO));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BookingDTO> updateBooking(@PathVariable Long id, @Valid @RequestBody BookingDTO bookingDTO) {
+    public ResponseEntity<BookingDTO> updateBooking(@PathVariable Long id, @RequestBody BookingDTO bookingDTO) {
         bookingDTO.setId(id);
         return ResponseEntity.ok(bookingService.updateBooking(bookingDTO));
     }

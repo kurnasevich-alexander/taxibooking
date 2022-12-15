@@ -2,8 +2,7 @@ package eu.senla.taxibooking.dto.mapper;
 
 import eu.senla.taxibooking.dto.BookingDTO;
 import eu.senla.taxibooking.entity.Booking;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
+import org.mapstruct.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 
@@ -23,5 +22,7 @@ public interface BookingDTOMapper {
                 .collect(Collectors.toList()), booking.getPageable(), booking.getTotalElements());
     }
 
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
+            nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
     void updateBookingFromDTO(BookingDTO dto, @MappingTarget Booking entity);
 }

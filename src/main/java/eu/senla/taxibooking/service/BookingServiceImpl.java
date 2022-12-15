@@ -7,6 +7,7 @@ import eu.senla.taxibooking.entity.Booking;
 import eu.senla.taxibooking.entity.Waypoint;
 import eu.senla.taxibooking.exception.BookingNotFoundException;
 import eu.senla.taxibooking.repository.BookingRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,13 +17,14 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 
 @Service
+@RequiredArgsConstructor
 public class BookingServiceImpl implements BookingService {
 
     @Autowired
-    private BookingRepository bookingRepository;
+    private final BookingRepository bookingRepository;
 
     @Autowired
-    private BookingDTOMapper mapper;
+    private final BookingDTOMapper mapper;
 
     @Override
     @Transactional

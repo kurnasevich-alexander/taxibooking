@@ -1,9 +1,11 @@
 package eu.senla.taxibooking.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class WaypointDTO {
 
     @Schema(description = "Unique identifier of the Waypoint.",
