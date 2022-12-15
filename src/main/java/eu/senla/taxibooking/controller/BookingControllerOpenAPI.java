@@ -20,53 +20,58 @@ import javax.validation.Valid;
 @Tag(name = "booking", description = "the Booking API")
 public interface BookingControllerOpenAPI {
 
-    @Operation(summary = "Find all bookings", description = "Returns a Page of bookings", tags = { "booking" })
+    @Operation(summary = "Find all bookings", description = "Returns a Page of bookings", tags = {"booking"})
     @ApiResponse(responseCode = "200", description = "successful operation",
             content = @Content(schema = @Schema(implementation = BookingDTO.class)))
     @GetMapping
     ResponseEntity<Page<BookingDTO>> getBookings(@ParameterObject Pageable pageable);
 
-    @Operation(summary = "Find booking by ID", description = "Returns a single booking", tags = { "booking" })
+    @Operation(summary = "Find booking by ID", description = "Returns a single booking", tags = {"booking"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation",
                     content = @Content(schema = @Schema(implementation = BookingDTO.class))),
-                    @ApiResponse(responseCode = "404", description = "Booking not found") })
+            @ApiResponse(responseCode = "404", description = "Booking not found",
+                    content = @Content)})
     @GetMapping("/{id}")
     ResponseEntity<BookingDTO> getBooking(
-            @Parameter(description="Id of the booking to be obtained. Cannot be empty.", required=true)
+            @Parameter(description = "Id of the booking to be obtained. Cannot be empty.", required = true)
             @PathVariable Long id);
 
-    @Operation(summary = "Add a new booking", description = "Returns created booking", tags = { "booking" })
+    @Operation(summary = "Add a new booking", description = "Returns created booking", tags = {"booking"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Booking created",
                     content = @Content(schema = @Schema(implementation = BookingDTO.class))),
-            @ApiResponse(responseCode = "400", description = "Invalid input")})
+            @ApiResponse(responseCode = "400", description = "Invalid input",
+                    content = @Content)})
     @PostMapping
     ResponseEntity<BookingDTO> addBooking(
-            @Parameter(description="Booking to add. Cannot be null or empty.",
-                    required=true, schema=@Schema(implementation = BookingDTO.class))
+            @Parameter(description = "Booking to add. Cannot be null or empty.",
+                    required = true, schema = @Schema(implementation = BookingDTO.class))
             @Valid @RequestBody BookingDTO bookingDTO);
 
-    @Operation(summary = "Update existing booking", description = "Returns updated booking", tags = { "booking" })
+    @Operation(summary = "Update existing booking", description = "Returns updated booking", tags = {"booking"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Booking has been updated"),
-            @ApiResponse(responseCode = "404", description = "Booking not found"),
-            @ApiResponse(responseCode = "405", description = "Validation exception") })
+            @ApiResponse(responseCode = "400", description = "Validation exception",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Booking not found",
+                    content = @Content)})
     @PutMapping("/{id}")
     ResponseEntity<BookingDTO> updateBooking(
-            @Parameter(description="Id of the booking to be updated. Cannot be empty.", required=true)
+            @Parameter(description = "Id of the booking to be updated. Cannot be empty.", required = true)
             @PathVariable Long id,
-            @Parameter(description="Booking to update. Cannot be null or empty.",
-                    required=true, schema=@Schema(implementation = BookingDTO.class))
+            @Parameter(description = "Booking to update. Cannot be null or empty.",
+                    required = true, schema = @Schema(implementation = BookingDTO.class))
             @Valid @RequestBody BookingDTO bookingDTO);
 
-    @Operation(summary = "Deletes a booking", description = "", tags = { "booking" })
+    @Operation(summary = "Deletes a booking", tags = {"booking"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Booking has been deleted"),
-            @ApiResponse(responseCode = "404", description = "Booking not found") })
+            @ApiResponse(responseCode = "204", description = "Booking has been deleted"),
+            @ApiResponse(responseCode = "404", description = "Booking not found",
+                    content = @Content)})
     @DeleteMapping("/{id}")
     ResponseEntity<Void> deleteBooking(
-            @Parameter(description="Id of the booking to be delete. Cannot be empty.",
-                    required=true)
+            @Parameter(description = "Id of the booking to be delete. Cannot be empty.",
+                    required = true)
             @PathVariable Long id);
 }

@@ -11,14 +11,6 @@ services:
     ports:
       - 5432:5432
 
-  adminer:
-    image: adminer
-    restart: always
-    links:
-      - booking
-    ports:
-      - 8081:8080
-
   pgadmin:
     container_name: pgadmin4_container
     image: dpage/pgadmin4

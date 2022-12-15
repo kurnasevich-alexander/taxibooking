@@ -39,7 +39,7 @@ public class BookingServiceImpl implements BookingService {
     @Transactional
     public BookingDTO updateBooking(BookingDTO bookingDTO) {
         Booking booking = bookingRepository.findById(bookingDTO.getId())
-                .orElseThrow(() -> new BookingNotFoundException("Booking not found"));
+                .orElseThrow(() -> new BookingNotFoundException("Booking not found id: " + bookingDTO.getId()));
         bookingDTO.setLastModifiedOn(LocalDateTime.now());
         bookingDTO.setCreatedOn(booking.getCreatedOn());
         mapper.updateBookingFromDTO(bookingDTO, booking);
@@ -59,7 +59,7 @@ public class BookingServiceImpl implements BookingService {
     public void deleteBooking(Long id) {
         if (bookingRepository.existsById(id)) {
             bookingRepository.deleteById(id);
-        } else throw new BookingNotFoundException("Booking not found");
+        } else throw new BookingNotFoundException("Booking not found id: " + id);
     }
 
     @Override
@@ -71,6 +71,6 @@ public class BookingServiceImpl implements BookingService {
     public BookingDTO getBooking(Long id) {
         return bookingRepository.findById(id)
                 .map(mapper::bookingToDTO)
-                .orElseThrow(() -> new BookingNotFoundException("Booking not found"));
+                .orElseThrow(() -> new BookingNotFoundException("Booking not found id: " + id));
     }
 }
