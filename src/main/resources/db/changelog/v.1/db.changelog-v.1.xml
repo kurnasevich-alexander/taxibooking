@@ -5,7 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <include file="t1-add-booking-table.xml" relativeToChangelogFile="true"/>
-    <include file="t4-add-waypoint-table.xml" relativeToChangelogFile="true"/>
+    <include file="v.1.1-add-booking-table.xml" relativeToChangelogFile="true"/>
+    <include file="v.1.2-add-waypoint-table.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

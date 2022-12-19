@@ -1,4 +1,4 @@
-package eu.senla.taxibooking.dto.mapper;
+package eu.senla.taxibooking.service.mapper;
 
 import eu.senla.taxibooking.dto.BookingDTO;
 import eu.senla.taxibooking.entity.Booking;
@@ -11,18 +11,19 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring")
 public interface BookingDTOMapper {
 
-    BookingDTO bookingToDTO(Booking booking);
+    BookingDTO bookingToBookingDTO(Booking booking);
 
-    Booking bookingDTOToEntity(BookingDTO dto);
+    Booking bookingDTOToBooking(BookingDTO dto);
 
-    default Page<BookingDTO> bookingPageToDTO(Page<Booking> booking) {
+    default Page<BookingDTO> pageBookingToPageBookingDTO(Page<Booking> booking) {
         return new PageImpl<>(booking
                 .stream()
-                .map(this::bookingToDTO)
+                .map(this::bookingToBookingDTO)
                 .collect(Collectors.toList()), booking.getPageable(), booking.getTotalElements());
     }
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
             nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
     void updateBookingFromDTO(BookingDTO dto, @MappingTarget Booking entity);
+
 }

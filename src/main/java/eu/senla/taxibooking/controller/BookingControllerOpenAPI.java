@@ -1,6 +1,7 @@
 package eu.senla.taxibooking.controller;
 
 import eu.senla.taxibooking.dto.BookingDTO;
+import eu.senla.taxibooking.dto.ApiErrorDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -27,7 +28,7 @@ public interface BookingControllerOpenAPI {
             @ApiResponse(responseCode = "200", description = "successful operation",
                     content = @Content(schema = @Schema(implementation = BookingDTO.class))),
             @ApiResponse(responseCode = "404", description = "Booking not found",
-                    content = @Content)})
+                    content = @Content(schema = @Schema(implementation = ApiErrorDTO.class)))})
     ResponseEntity<BookingDTO> getBooking(
             @Parameter(description = "Id of the booking to be obtained. Cannot be empty.", required = true) Long id);
 
@@ -36,7 +37,7 @@ public interface BookingControllerOpenAPI {
             @ApiResponse(responseCode = "201", description = "Booking created",
                     content = @Content(schema = @Schema(implementation = BookingDTO.class))),
             @ApiResponse(responseCode = "400", description = "Invalid input",
-                    content = @Content)})
+                    content = @Content(schema = @Schema(implementation = ApiErrorDTO.class)))})
 
     ResponseEntity<BookingDTO> addBooking(
             @Parameter(description = "Booking to add. Cannot be null or empty.",
@@ -46,9 +47,9 @@ public interface BookingControllerOpenAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Booking has been updated"),
             @ApiResponse(responseCode = "400", description = "Validation exception",
-                    content = @Content),
+                    content = @Content(schema = @Schema(implementation = ApiErrorDTO.class))),
             @ApiResponse(responseCode = "404", description = "Booking not found",
-                    content = @Content)})
+                    content = @Content(schema = @Schema(implementation = ApiErrorDTO.class)))})
 
     ResponseEntity<BookingDTO> updateBooking(
             @Parameter(description = "Id of the booking to be updated. Cannot be empty.", required = true) Long id,
@@ -59,7 +60,7 @@ public interface BookingControllerOpenAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Booking has been deleted"),
             @ApiResponse(responseCode = "404", description = "Booking not found",
-                    content = @Content)})
+                    content = @Content(schema = @Schema(implementation = ApiErrorDTO.class)))})
 
     ResponseEntity<Void> deleteBooking(
             @Parameter(description = "Id of the booking to be delete. Cannot be empty.",

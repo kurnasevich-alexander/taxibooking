@@ -1,17 +1,19 @@
 package eu.senla.taxibooking.api.service;
 
-import eu.senla.taxibooking.dto.BookingDTO;
+import eu.senla.taxibooking.entity.Booking;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface BookingService {
-    BookingDTO addBooking(BookingDTO bookingDTO);
 
-    BookingDTO updateBooking(BookingDTO bookingDTO);
+    Booking addBooking(Booking booking);
+
+    Booking updateBooking(Booking booking);
 
     void deleteBooking(Long id);
 
-    Page<BookingDTO> getAllBookings(Pageable pageable);
+    Page<Booking> getAllBookings(Pageable pageable);
 
-    BookingDTO getBooking(Long id);
+    Booking getBooking(Long id);
+
 }

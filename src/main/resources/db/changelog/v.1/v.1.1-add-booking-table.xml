@@ -5,7 +5,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-<changeSet  author="Kurnasevich"  id="t1">
+<changeSet  author="Kurnasevich"  id="v.1.1">
     <createTable tableName="bookings">
         <column  name="id"  type="BIGINT">
             <constraints  nullable="false"  primaryKey="true"  unique="true"/>
@@ -16,7 +16,7 @@ xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         <column  name="passenger_contact_number"  type="BIGINT" >
             <constraints  nullable="false" />
         </column>
-        <column  name="pickup_time"  type="TIMESTAMP" >
+        <column  name="pickup_time"  type="TIMESTAMP WITH TIMEZONE" >
             <constraints  nullable="false" />
         </column>
         <column  name="asap"  type="BOOLEAN" >
@@ -28,16 +28,16 @@ xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         <column  name="number_of_passengers"  type="INTEGER" >
             <constraints  nullable="false" />
         </column>
-        <column  name="price"  type="DOUBLE" >
+        <column  name="price"  type="NUMERIC" >
             <constraints  nullable="false" />
         </column>
         <column  name="rating"  type="FLOAT" >
             <constraints  nullable="false" />
         </column>
-        <column  name="created_on"  type="TIMESTAMP" >
+        <column  name="created_on"  type="TIMESTAMP WITH TIMEZONE" >
             <constraints  nullable="false" />
         </column>
-        <column  name="last_modified_on"  type="TIMESTAMP" >
+        <column  name="last_modified_on"  type="TIMESTAMP WITH TIMEZONE" >
             <constraints  nullable="false" />
         </column>
     </createTable>
