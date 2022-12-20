@@ -2,10 +2,10 @@ package eu.senla.taxibooking.service;
 
 import eu.senla.taxibooking.api.service.BookingService;
 import eu.senla.taxibooking.entity.Booking;
-import eu.senla.taxibooking.service.mapper.BookingUpdateMapper;
 import eu.senla.taxibooking.entity.Waypoint;
 import eu.senla.taxibooking.exception.BookingNotFoundException;
 import eu.senla.taxibooking.repository.BookingRepository;
+import eu.senla.taxibooking.service.mapper.BookingUpdateMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

@@ -1,11 +1,10 @@
 package eu.senla.taxibooking.controller;
 
-import eu.senla.taxibooking.dto.ApiErrorDTO;
+import eu.senla.taxibooking.exception.ApiErrorDto;
 import eu.senla.taxibooking.exception.BookingNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,26 +12,28 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(BookingNotFoundException.class)
     public ResponseEntity<Object> springHandleNotFound(BookingNotFoundException ex) {
-        ApiErrorDTO error = ApiErrorDTO.builder()
+        ApiErrorDto error = ApiErrorDto.builder()
                 .message(ex.getMessage())
-                .timestamp(LocalDateTime.now())
+                .timestamp(OffsetDateTime.now())
                 .status(HttpStatus.NOT_FOUND).build();
         return new ResponseEntity<>(error, error.getStatus());
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> springHandleException(Exception ex) {
-        ApiErrorDTO error = ApiErrorDTO.builder()
+        ApiErrorDto error = ApiErrorDto.builder()
                 .message(ex.getMessage())
-                .timestamp(LocalDateTime.now())
+                .timestamp(OffsetDateTime.now())
                 .status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         return new ResponseEntity<>(error, error.getStatus());
     }
@@ -41,9 +42,16 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   HttpHeaders headers, HttpStatus status,
                                                                   WebRequest request) {
-        BindingResult result = ex.getBindingResult();
-        List<FieldError> fieldErrors = result.getFieldErrors();
-        return ResponseEntity.status(status)
-                .body(fieldErrors.toArray(new FieldError[fieldErrors.size()]));
+        List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
+        String message = fieldErrors.stream()
+                .map(fieldError -> fieldError.getField()
+                        .concat(":")
+                        .concat(Objects.requireNonNull(fieldError.getDefaultMessage())))
+                .collect(Collectors.joining(", "));
+        ApiErrorDto error = ApiErrorDto.builder()
+                .message(message)
+                .timestamp(OffsetDateTime.now())
+                .status(HttpStatus.BAD_REQUEST).build();
+        return new ResponseEntity<>(error, status);
     }
 }

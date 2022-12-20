@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class WaypointDTO {
+public class WaypointDto {
     @Schema(description = "Unique identifier of the Waypoint.",
             example = "1", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Long id;

@@ -1,8 +1,10 @@
 package eu.senla.taxibooking.controller;
 
 import eu.senla.taxibooking.api.service.BookingService;
-import eu.senla.taxibooking.dto.BookingDTO;
-import eu.senla.taxibooking.service.mapper.BookingDTOMapper;
+import eu.senla.taxibooking.dto.BookingDto;
+import eu.senla.taxibooking.dto.OnCreate;
+import eu.senla.taxibooking.dto.OnUpdate;
+import eu.senla.taxibooking.service.mapper.BookingDtoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,31 +24,31 @@ public class BookingController implements BookingControllerOpenAPI {
     private final BookingService bookingService;
 
     @Autowired
-    private final BookingDTOMapper bookingDTOMapper;
+    private final BookingDtoMapper bookingDTOMapper;
 
     @GetMapping
-    public ResponseEntity<Page<BookingDTO>> getBookings(@ParameterObject Pageable pageable) {
-        return ResponseEntity.ok(bookingDTOMapper.pageBookingToPageBookingDTO(bookingService.getAllBookings(pageable)));
+    public ResponseEntity<Page<BookingDto>> getBookings(@ParameterObject Pageable pageable) {
+        return ResponseEntity.ok(bookingDTOMapper.pageBookingToPageBookingDto(bookingService.getAllBookings(pageable)));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BookingDTO> getBooking(@PathVariable Long id) {
-        return ResponseEntity.ok(bookingDTOMapper.bookingToBookingDTO(bookingService.getBooking(id)));
+    public ResponseEntity<BookingDto> getBooking(@PathVariable Long id) {
+        return ResponseEntity.ok(bookingDTOMapper.bookingToBookingDto(bookingService.getBooking(id)));
     }
 
     @PostMapping
-    public ResponseEntity<BookingDTO> addBooking(@Validated @RequestBody BookingDTO bookingDTO) {
+    public ResponseEntity<BookingDto> addBooking(@Validated(OnCreate.class) @RequestBody BookingDto bookingDTO) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(bookingDTOMapper.bookingToBookingDTO(bookingService.addBooking(bookingDTOMapper
-                        .bookingDTOToBooking(bookingDTO))));
+                .body(bookingDTOMapper.bookingToBookingDto(bookingService.addBooking(bookingDTOMapper
+                        .bookingDtoToBooking(bookingDTO))));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BookingDTO> updateBooking(@PathVariable Long id,
-                                                    @Validated @RequestBody BookingDTO bookingDTO) {
+    public ResponseEntity<BookingDto> updateBooking(@PathVariable Long id,
+                                                    @Validated(OnUpdate.class) @RequestBody BookingDto bookingDTO) {
         bookingDTO.setId(id);
-        return ResponseEntity.ok(bookingDTOMapper.bookingToBookingDTO(bookingService
-                .updateBooking(bookingDTOMapper.bookingDTOToBooking(bookingDTO))));
+        return ResponseEntity.ok(bookingDTOMapper.bookingToBookingDto(bookingService
+                .updateBooking(bookingDTOMapper.bookingDtoToBooking(bookingDTO))));
     }
 
     @DeleteMapping("/{id}")
