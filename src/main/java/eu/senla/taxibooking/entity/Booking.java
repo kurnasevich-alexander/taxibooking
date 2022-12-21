@@ -1,15 +1,20 @@
 package eu.senla.taxibooking.entity;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
-@Data
 @Table(name = "bookings")
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,4 +41,28 @@ public class Booking {
     private OffsetDateTime lastModifiedOn;
     @OneToMany(mappedBy = "booking", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Waypoint> tripWaypoints;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Booking booking)) return false;
+        return Objects.equals(id, booking.id)
+                && Objects.equals(passengerName, booking.passengerName)
+                && Objects.equals(passengerContactNumber, booking.passengerContactNumber)
+                && Objects.equals(pickupTime, booking.pickupTime)
+                && Objects.equals(asap, booking.asap)
+                && Objects.equals(waitingTime, booking.waitingTime)
+                && Objects.equals(numberOfPassengers, booking.numberOfPassengers)
+                && Objects.equals(price, booking.price)
+                && Objects.equals(rating, booking.rating)
+                && Objects.equals(createdOn, booking.createdOn)
+                && Objects.equals(lastModifiedOn, booking.lastModifiedOn)
+                && Objects.equals(tripWaypoints, booking.tripWaypoints);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, passengerName, passengerContactNumber, pickupTime, asap, waitingTime,
+                numberOfPassengers, price, rating, createdOn, lastModifiedOn);
+    }
 }

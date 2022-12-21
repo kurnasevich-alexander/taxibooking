@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.Clock;
 import java.time.OffsetDateTime;
 
 @Service
@@ -25,12 +26,15 @@ public class BookingServiceImpl implements BookingService {
     @Autowired
     private final BookingUpdateMapper mapper;
 
+    @Autowired
+    private final Clock clock;
+
     @Override
     @Transactional
     public Booking addBooking(Booking booking) {
         booking.setId(null);
-        booking.setCreatedOn(OffsetDateTime.now());
-        booking.setLastModifiedOn(OffsetDateTime.now());
+        booking.setCreatedOn(OffsetDateTime.now(clock));
+        booking.setLastModifiedOn(OffsetDateTime.now(clock));
         insertBookingIntoWaypoints(booking);
         return bookingRepository.save(booking);
     }
@@ -44,7 +48,7 @@ public class BookingServiceImpl implements BookingService {
         if (booking.getTripWaypoints() != null && !booking.getTripWaypoints().isEmpty()) {
             insertBookingIntoWaypoints(updated);
         }
-        updated.setLastModifiedOn(OffsetDateTime.now());
+        updated.setLastModifiedOn(OffsetDateTime.now(clock));
         return bookingRepository.save(updated);
     }
 
