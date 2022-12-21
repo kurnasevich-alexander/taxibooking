@@ -1,7 +1,7 @@
 package eu.senla.taxibooking.controller;
 
 import eu.senla.taxibooking.exception.ApiErrorDto;
-import eu.senla.taxibooking.exception.BookingNotFoundException;
+import eu.senla.taxibooking.exception.EntityNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +20,8 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(BookingNotFoundException.class)
-    public ResponseEntity<Object> springHandleNotFound(BookingNotFoundException ex) {
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<Object> springHandleNotFound(EntityNotFoundException ex) {
         ApiErrorDto error = ApiErrorDto.builder()
                 .message(ex.getMessage())
                 .timestamp(OffsetDateTime.now())

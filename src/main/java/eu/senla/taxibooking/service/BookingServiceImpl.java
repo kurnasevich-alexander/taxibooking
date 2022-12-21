@@ -3,7 +3,7 @@ package eu.senla.taxibooking.service;
 import eu.senla.taxibooking.api.service.BookingService;
 import eu.senla.taxibooking.entity.Booking;
 import eu.senla.taxibooking.entity.Waypoint;
-import eu.senla.taxibooking.exception.BookingNotFoundException;
+import eu.senla.taxibooking.exception.EntityNotFoundException;
 import eu.senla.taxibooking.repository.BookingRepository;
 import eu.senla.taxibooking.service.mapper.BookingUpdateMapper;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +39,7 @@ public class BookingServiceImpl implements BookingService {
     @Transactional
     public Booking updateBooking(Booking booking) {
         Booking updated = bookingRepository.findById(booking.getId())
-                .orElseThrow(() -> new BookingNotFoundException("Booking not found id: " + booking.getId()));
+                .orElseThrow(() -> new EntityNotFoundException("Booking not found id: " + booking.getId()));
         mapper.updateBookingFromBooking(booking, updated);
         if (booking.getTripWaypoints() != null && !booking.getTripWaypoints().isEmpty()) {
             insertBookingIntoWaypoints(updated);
@@ -61,7 +61,7 @@ public class BookingServiceImpl implements BookingService {
         if (bookingRepository.existsById(id)) {
             bookingRepository.deleteById(id);
         } else {
-            throw new BookingNotFoundException("Booking not found id: " + id);
+            throw new EntityNotFoundException("Booking not found id: " + id);
         }
     }
 
@@ -73,6 +73,6 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Booking getBooking(Long id) {
         return bookingRepository.findById(id)
-                .orElseThrow(() -> new BookingNotFoundException("Booking not found id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Booking not found id: " + id));
     }
 }

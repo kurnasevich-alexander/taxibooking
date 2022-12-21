@@ -2,7 +2,9 @@ package eu.senla.taxibooking.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
@@ -11,6 +13,8 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class BookingDto {
     @Schema(description = "Unique identifier of the Booking.",
             example = "1", requiredMode = Schema.RequiredMode.NOT_REQUIRED)

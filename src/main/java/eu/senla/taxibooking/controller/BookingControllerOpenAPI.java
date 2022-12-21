@@ -41,7 +41,7 @@ public interface BookingControllerOpenAPI {
 
     ResponseEntity<BookingDto> addBooking(
             @Parameter(description = "Booking to add. Cannot be null or empty.",
-                    required = true, schema = @Schema(implementation = BookingDto.class)) BookingDto bookingDTO);
+                    required = true, schema = @Schema(implementation = BookingDto.class)) BookingDto bookingDto);
 
     @Operation(summary = "Update existing booking", description = "Returns updated booking", tags = {"booking"})
     @ApiResponses(value = {
@@ -54,7 +54,7 @@ public interface BookingControllerOpenAPI {
     ResponseEntity<BookingDto> updateBooking(
             @Parameter(description = "Id of the booking to be updated. Cannot be empty.", required = true) Long id,
             @Parameter(description = "Booking to update. Cannot be null or empty.",
-                    required = true, schema = @Schema(implementation = BookingDto.class)) BookingDto bookingDTO);
+                    required = true, schema = @Schema(implementation = BookingDto.class)) BookingDto bookingDto);
 
     @Operation(summary = "Deletes a booking", tags = {"booking"})
     @ApiResponses(value = {

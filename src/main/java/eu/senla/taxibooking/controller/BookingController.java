@@ -24,31 +24,31 @@ public class BookingController implements BookingControllerOpenAPI {
     private final BookingService bookingService;
 
     @Autowired
-    private final BookingDtoMapper bookingDTOMapper;
+    private final BookingDtoMapper bookingDtoMapper;
 
     @GetMapping
     public ResponseEntity<Page<BookingDto>> getBookings(@ParameterObject Pageable pageable) {
-        return ResponseEntity.ok(bookingDTOMapper.pageBookingToPageBookingDto(bookingService.getAllBookings(pageable)));
+        return ResponseEntity.ok(bookingDtoMapper.pageBookingToPageBookingDto(bookingService.getAllBookings(pageable)));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<BookingDto> getBooking(@PathVariable Long id) {
-        return ResponseEntity.ok(bookingDTOMapper.bookingToBookingDto(bookingService.getBooking(id)));
+        return ResponseEntity.ok(bookingDtoMapper.bookingToBookingDto(bookingService.getBooking(id)));
     }
 
     @PostMapping
-    public ResponseEntity<BookingDto> addBooking(@Validated(OnCreate.class) @RequestBody BookingDto bookingDTO) {
+    public ResponseEntity<BookingDto> addBooking(@Validated(OnCreate.class) @RequestBody BookingDto bookingDto) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(bookingDTOMapper.bookingToBookingDto(bookingService.addBooking(bookingDTOMapper
-                        .bookingDtoToBooking(bookingDTO))));
+                .body(bookingDtoMapper.bookingToBookingDto(bookingService.addBooking(bookingDtoMapper
+                        .bookingDtoToBooking(bookingDto))));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<BookingDto> updateBooking(@PathVariable Long id,
-                                                    @Validated(OnUpdate.class) @RequestBody BookingDto bookingDTO) {
-        bookingDTO.setId(id);
-        return ResponseEntity.ok(bookingDTOMapper.bookingToBookingDto(bookingService
-                .updateBooking(bookingDTOMapper.bookingDtoToBooking(bookingDTO))));
+                                                    @Validated(OnUpdate.class) @RequestBody BookingDto bookingDto) {
+        bookingDto.setId(id);
+        return ResponseEntity.ok(bookingDtoMapper.bookingToBookingDto(bookingService
+                .updateBooking(bookingDtoMapper.bookingDtoToBooking(bookingDto))));
     }
 
     @DeleteMapping("/{id}")
