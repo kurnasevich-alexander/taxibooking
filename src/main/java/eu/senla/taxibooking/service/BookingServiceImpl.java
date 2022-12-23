@@ -19,6 +19,8 @@ import java.time.OffsetDateTime;
 @RequiredArgsConstructor
 public class BookingServiceImpl implements BookingService {
 
+    private static final String BOOKING_NOT_FOUND_MESSAGE = "Booking not found id: ";
+
     @Autowired
     private final BookingRepository bookingRepository;
 
@@ -39,7 +41,7 @@ public class BookingServiceImpl implements BookingService {
     @Transactional
     public Booking updateBooking(Booking booking) {
         Booking updated = bookingRepository.findById(booking.getId())
-                .orElseThrow(() -> new EntityNotFoundException("Booking not found id: " + booking.getId()));
+                .orElseThrow(() -> new EntityNotFoundException(BOOKING_NOT_FOUND_MESSAGE + booking.getId()));
         mapper.updateBookingFromBooking(booking, updated);
         if (booking.getTripWaypoints() != null && !booking.getTripWaypoints().isEmpty()) {
             insertBookingIntoWaypoints(updated);
@@ -61,7 +63,7 @@ public class BookingServiceImpl implements BookingService {
         if (bookingRepository.existsById(id)) {
             bookingRepository.deleteById(id);
         } else {
-            throw new EntityNotFoundException("Booking not found id: " + id);
+            throw new EntityNotFoundException(BOOKING_NOT_FOUND_MESSAGE + id);
         }
     }
 
@@ -73,6 +75,6 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Booking getBooking(Long id) {
         return bookingRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Booking not found id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException(BOOKING_NOT_FOUND_MESSAGE + id));
     }
 }
