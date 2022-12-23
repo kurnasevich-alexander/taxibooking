@@ -1,14 +1,18 @@
 package eu.senla.taxibooking.exception;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 import java.time.OffsetDateTime;
 
 @Builder
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ApiErrorDto {
     @Schema(description = "Http status", example = "HTTP STATUS")
     private HttpStatus status;

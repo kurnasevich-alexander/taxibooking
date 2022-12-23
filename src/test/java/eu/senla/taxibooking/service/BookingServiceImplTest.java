@@ -14,86 +14,58 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import java.time.Clock;
-import java.time.Instant;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class BookingServiceImplTest {
 
     private BookingService bookingService;
     private BookingRepository bookingRepository;
-    private BookingUpdateMapper bookingUpdateMapper;
-    private Clock clock;
 
     @BeforeEach
     public void init() {
         bookingRepository = Mockito.mock(BookingRepository.class);
-        bookingUpdateMapper = Mockito.mock(BookingUpdateMapper.class);
-        clock = Clock.fixed(Instant.ofEpochSecond(100000), ZoneId.systemDefault());
-        bookingService = new BookingServiceImpl(bookingRepository, bookingUpdateMapper, clock);
+        BookingUpdateMapper bookingUpdateMapper = Mockito.mock(BookingUpdateMapper.class);
+        bookingService = new BookingServiceImpl(bookingRepository, bookingUpdateMapper);
     }
 
     @Test
     void addBooking() {
         List<Waypoint> givenWaypoints = new ArrayList<>();
-        List<Waypoint> expectedWaypoints = new ArrayList<>();
-        Booking given = Booking.builder()
-                .tripWaypoints(givenWaypoints)
-                .build();
-        Booking expectedToReturn = Booking.builder()
-                .id(1L)
-                .createdOn(OffsetDateTime.now(clock))
-                .lastModifiedOn(OffsetDateTime.now(clock))
-                .tripWaypoints(expectedWaypoints)
-                .build();
-        Booking expectedToSave = Booking.builder()
-                .createdOn(OffsetDateTime.now(clock))
-                .lastModifiedOn(OffsetDateTime.now(clock))
-                .tripWaypoints(givenWaypoints)
-                .build();
+        Booking given = Booking.builder().tripWaypoints(givenWaypoints).build();
         givenWaypoints.add(new Waypoint(null, "local", 9.9, 9.9, null));
-        expectedWaypoints.add(new Waypoint(1L, "local", 9.9, 9.9, expectedToReturn));
 
-        when(bookingRepository.save(given)).thenReturn(expectedToReturn);
+        when(bookingRepository.save(given)).thenReturn(given);
 
-        assertEquals(expectedToReturn, bookingService.addBooking(given));
-        assertEquals(expectedToSave, given);
+        assertEquals(given, bookingService.addBooking(given));
+        assertNotNull(given.getCreatedOn());
+        assertNotNull(given.getLastModifiedOn());
+        assertNotNull(given.getTripWaypoints().stream().findAny().get());
     }
 
     @Test
     void updateBooking() {
         List<Waypoint> givenWaypoints = new ArrayList<>();
-        List<Waypoint> expectedWaypoints = new ArrayList<>();
-        Booking given = Booking.builder().id(1L).tripWaypoints(expectedWaypoints).build();
-        Booking expectedToReturn = Booking.builder().id(1L).tripWaypoints(givenWaypoints).build();
-        Booking expectedToSave = Booking.builder().id(1L).tripWaypoints(givenWaypoints)
-                .lastModifiedOn(OffsetDateTime.now(clock)).build();
+        Booking given = Booking.builder().id(1L).tripWaypoints(givenWaypoints).build();
         givenWaypoints.add(new Waypoint(null, "local", 9.9, 9.9, null));
-        expectedWaypoints.add(new Waypoint(null, "local", 9.9, 9.9, null));
 
-        when(bookingRepository.findById(1L)).thenReturn(Optional.of(expectedToReturn));
-        doNothing().when(bookingUpdateMapper).updateBookingFromBooking(given, expectedToReturn);
-        when(bookingRepository.save(expectedToReturn)).thenReturn(expectedToReturn);
+        when(bookingRepository.findById(1L)).thenReturn(Optional.of(given));
+        when(bookingRepository.save(given)).thenReturn(given);
 
-        assertEquals(expectedToReturn, bookingService.updateBooking(given));
-        assertEquals(expectedToSave, expectedToReturn);
+        assertEquals(given, bookingService.updateBooking(given));
+        assertNotNull(given.getLastModifiedOn());
+        assertNotNull(given.getTripWaypoints().stream().findAny().get());
     }
 
     @Test
     void updateBooking_ThrowEntityNotFoundException() {
         when(bookingRepository.findById(any(Long.class))).thenReturn(Optional.empty());
 
-        Exception actual = assertThrows(EntityNotFoundException.class, () -> {
-            bookingService.getBooking(1L);
-        });
+        Exception actual = assertThrows(EntityNotFoundException.class, () -> bookingService.getBooking(1L));
 
         assertEquals("Booking not found id: 1", actual.getMessage());
     }
@@ -111,9 +83,7 @@ class BookingServiceImplTest {
     void deleteBooking_ThrowEntityNotFoundException() {
         when(bookingRepository.existsById(any(Long.class))).thenReturn(false);
 
-        Exception actual = assertThrows(EntityNotFoundException.class, () -> {
-            bookingService.deleteBooking(1L);
-        });
+        Exception actual = assertThrows(EntityNotFoundException.class, () -> bookingService.deleteBooking(1L));
 
         assertEquals("Booking not found id: 1", actual.getMessage());
     }
@@ -139,9 +109,7 @@ class BookingServiceImplTest {
     void getBooking_ThrowEntityNotFoundException() {
         when(bookingRepository.findById(any(Long.class))).thenReturn(Optional.empty());
 
-        Exception actual = assertThrows(EntityNotFoundException.class, () -> {
-            bookingService.getBooking(1L);
-        });
+        Exception actual = assertThrows(EntityNotFoundException.class, () -> bookingService.getBooking(1L));
 
         assertEquals("Booking not found id: 1", actual.getMessage());
     }

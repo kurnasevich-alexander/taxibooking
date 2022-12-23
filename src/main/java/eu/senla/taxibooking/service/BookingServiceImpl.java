@@ -13,12 +13,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.Clock;
 import java.time.OffsetDateTime;
 
 @Service
 @RequiredArgsConstructor
 public class BookingServiceImpl implements BookingService {
+
+    private static final String BOOKING_NOT_FOUND_MESSAGE = "Booking not found id: ";
 
     @Autowired
     private final BookingRepository bookingRepository;
@@ -26,15 +27,12 @@ public class BookingServiceImpl implements BookingService {
     @Autowired
     private final BookingUpdateMapper mapper;
 
-    @Autowired
-    private final Clock clock;
-
     @Override
     @Transactional
     public Booking addBooking(Booking booking) {
         booking.setId(null);
-        booking.setCreatedOn(OffsetDateTime.now(clock));
-        booking.setLastModifiedOn(OffsetDateTime.now(clock));
+        booking.setCreatedOn(OffsetDateTime.now());
+        booking.setLastModifiedOn(OffsetDateTime.now());
         insertBookingIntoWaypoints(booking);
         return bookingRepository.save(booking);
     }
@@ -43,12 +41,12 @@ public class BookingServiceImpl implements BookingService {
     @Transactional
     public Booking updateBooking(Booking booking) {
         Booking updated = bookingRepository.findById(booking.getId())
-                .orElseThrow(() -> new EntityNotFoundException("Booking not found id: " + booking.getId()));
+                .orElseThrow(() -> new EntityNotFoundException(BOOKING_NOT_FOUND_MESSAGE + booking.getId()));
         mapper.updateBookingFromBooking(booking, updated);
         if (booking.getTripWaypoints() != null && !booking.getTripWaypoints().isEmpty()) {
             insertBookingIntoWaypoints(updated);
         }
-        updated.setLastModifiedOn(OffsetDateTime.now(clock));
+        updated.setLastModifiedOn(OffsetDateTime.now());
         return bookingRepository.save(updated);
     }
 
@@ -65,7 +63,7 @@ public class BookingServiceImpl implements BookingService {
         if (bookingRepository.existsById(id)) {
             bookingRepository.deleteById(id);
         } else {
-            throw new EntityNotFoundException("Booking not found id: " + id);
+            throw new EntityNotFoundException(BOOKING_NOT_FOUND_MESSAGE + id);
         }
     }
 
@@ -77,6 +75,6 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Booking getBooking(Long id) {
         return bookingRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Booking not found id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException(BOOKING_NOT_FOUND_MESSAGE + id));
     }
 }

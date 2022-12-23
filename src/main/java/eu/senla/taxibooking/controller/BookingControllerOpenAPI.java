@@ -38,7 +38,6 @@ public interface BookingControllerOpenAPI {
                     content = @Content(schema = @Schema(implementation = BookingDto.class))),
             @ApiResponse(responseCode = "400", description = "Invalid input",
                     content = @Content(schema = @Schema(implementation = ApiErrorDto.class)))})
-
     ResponseEntity<BookingDto> addBooking(
             @Parameter(description = "Booking to add. Cannot be null or empty.",
                     required = true, schema = @Schema(implementation = BookingDto.class)) BookingDto bookingDto);
@@ -50,7 +49,6 @@ public interface BookingControllerOpenAPI {
                     content = @Content(schema = @Schema(implementation = ApiErrorDto.class))),
             @ApiResponse(responseCode = "404", description = "Booking not found",
                     content = @Content(schema = @Schema(implementation = ApiErrorDto.class)))})
-
     ResponseEntity<BookingDto> updateBooking(
             @Parameter(description = "Id of the booking to be updated. Cannot be empty.", required = true) Long id,
             @Parameter(description = "Booking to update. Cannot be null or empty.",
@@ -61,7 +59,6 @@ public interface BookingControllerOpenAPI {
             @ApiResponse(responseCode = "204", description = "Booking has been deleted"),
             @ApiResponse(responseCode = "404", description = "Booking not found",
                     content = @Content(schema = @Schema(implementation = ApiErrorDto.class)))})
-
     ResponseEntity<Void> deleteBooking(
             @Parameter(description = "Id of the booking to be delete. Cannot be empty.",
                     required = true) Long id);
