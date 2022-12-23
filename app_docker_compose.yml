@@ -20,10 +20,10 @@ services:
       PGADMIN_DEFAULT_PASSWORD: root
     ports:
       - "5050:80"
-      
+
   taxi_booking_app:
-    image: taxi_booking:v1
-    ports: 
+    build: .
+    ports:
         - "8080:8080"
     environment:
         URL: jdbc:postgresql://postgres:5432/postgres
