@@ -1,9 +1,9 @@
 package eu.senla.taxibooking.controller;
 
 import eu.senla.taxibooking.api.service.BookingService;
-import eu.senla.taxibooking.dto.BookingDto;
-import eu.senla.taxibooking.dto.OnCreate;
-import eu.senla.taxibooking.dto.OnUpdate;
+import eu.senla.taxibooking_model.dto.BookingDto;
+import eu.senla.taxibooking_model.dto.OnCreate;
+import eu.senla.taxibooking_model.dto.OnUpdate;
 import eu.senla.taxibooking.service.mapper.BookingDtoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.api.annotations.ParameterObject;

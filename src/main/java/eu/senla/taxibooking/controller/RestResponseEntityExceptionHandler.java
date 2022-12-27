@@ -1,6 +1,6 @@
 package eu.senla.taxibooking.controller;
 
-import eu.senla.taxibooking.exception.ApiErrorDto;
+import eu.senla.taxibooking_model.exception.ApiErrorDto;
 import eu.senla.taxibooking.exception.EntityNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

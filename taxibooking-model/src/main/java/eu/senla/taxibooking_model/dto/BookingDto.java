@@ -1,4 +1,4 @@
-package eu.senla.taxibooking.dto;
+package eu.senla.taxibooking_model.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

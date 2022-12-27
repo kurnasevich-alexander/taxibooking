@@ -1,7 +1,7 @@
 package eu.senla.taxibooking.controller;
 
-import eu.senla.taxibooking.dto.BookingDto;
-import eu.senla.taxibooking.exception.ApiErrorDto;
+import eu.senla.taxibooking_model.dto.BookingDto;
+import eu.senla.taxibooking_model.exception.ApiErrorDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
