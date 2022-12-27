@@ -21,11 +21,20 @@ services:
     ports:
       - "5050:80"
 
-  taxi_booking_app:
-    build: .
-    ports:
-        - "8080:8080"
+#  taxi_booking_app:
+#    build: .
+#    ports:
+#      - "8080:8080"
+#    environment:
+#      URL: jdbc:postgresql://postgres:5432/postgres
+#      USERNAME: postgres
+#      PASSWORD: root
+
+  localRabbitMQ:
+    image: rabbitmq:3.11.5-management
     environment:
-        URL: jdbc:postgresql://postgres:5432/postgres
-        USERNAME: postgres
-        PASSWORD: root
+      RABBITMQ_DEFAULT_USER: root
+      RABBITMQ_DEFAULT_PASS: root
+    ports:
+      - 5672:5672
+      - 15672:15672
