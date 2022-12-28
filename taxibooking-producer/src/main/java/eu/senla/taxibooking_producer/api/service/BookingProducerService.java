@@ -1,4 +1,4 @@
-package eu.senla.taxibooking_producer.service;
+package eu.senla.taxibooking_producer.api.service;
 
 import eu.senla.taxibooking_model.dto.BookingDto;
 

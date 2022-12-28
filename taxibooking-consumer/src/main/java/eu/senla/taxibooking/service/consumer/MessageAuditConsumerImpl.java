@@ -1,8 +1,9 @@
 package eu.senla.taxibooking.service.consumer;
 
-import eu.senla.taxibooking.api.service.consumer.MessageAuditConsumer;
 import eu.senla.taxibooking.api.service.BookingService;
+import eu.senla.taxibooking.api.service.consumer.MessageAuditConsumer;
 import eu.senla.taxibooking.service.mapper.BookingDtoMapper;
+import org.apache.commons.lang3.SerializationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Message;
@@ -24,7 +25,9 @@ public class MessageAuditConsumerImpl implements MessageAuditConsumer {
     @Override
     @RabbitListener(queues = "${spring.rabbitmq.message_booking_queue}")
     public void auditMessage(Message message) {
-        logger.info("Received message with routing key " + message.getMessageProperties().getReceivedRoutingKey());
+        var body = SerializationUtils.deserialize(message.getBody());
+        logger.info("Received message with routing key: " + message.getMessageProperties().getReceivedRoutingKey() +
+                " || Message body: " + body.toString());
     }
 
 }

@@ -1,6 +1,7 @@
 package eu.senla.taxibooking_producer.service;
 
 import eu.senla.taxibooking_model.dto.BookingDto;
+import eu.senla.taxibooking_producer.api.service.BookingProducerService;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,9 +1,9 @@
 package eu.senla.taxibooking_producer.controller;
 
-import eu.senla.taxibooking_producer.service.BookingProducerService;
 import eu.senla.taxibooking_model.dto.BookingDto;
 import eu.senla.taxibooking_model.dto.OnCreate;
 import eu.senla.taxibooking_model.dto.OnUpdate;
+import eu.senla.taxibooking_producer.api.service.BookingProducerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
