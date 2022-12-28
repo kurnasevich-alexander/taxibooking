@@ -1,0 +1,40 @@
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+    enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  rabbitmq:
+    username: ${RMQ_USERNAME}
+    password: ${RMQ_PASSWORD}
+    host: ${RMQ_HOST}
+    port: 5672
+    message_exchange: message_exchange
+    booking_exchange: booking_exchange
+    add_booking_queue: add_booking_queue
+    edit_booking_queue: edit_booking_queue
+    delete_booking_queue: delete_booking_queue
+    message_booking_queue: message_booking_queue
+    add_booking_routing_key: add_booking
+    edit_booking_routing_key: edit_booking
+    delete_booking_routing_key: delete_booking
+
+hibernate:
+  dialect: org.hibernate.dialect.PostgreSQLDialect
+  show_sql: true
+  format_sql: true
+
+logging:
+  level:
+    root: info
+
+server:
+  port: 8080
+
+

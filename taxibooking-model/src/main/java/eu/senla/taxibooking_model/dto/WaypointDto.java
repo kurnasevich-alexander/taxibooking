@@ -5,10 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class WaypointDto {
+public class WaypointDto implements Serializable {
     @Schema(description = "Unique identifier of the Waypoint.",
             example = "1", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Long id;

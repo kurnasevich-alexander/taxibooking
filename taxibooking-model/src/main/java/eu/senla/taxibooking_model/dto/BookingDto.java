@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BookingDto {
+public class BookingDto implements Serializable {
     @Schema(description = "Unique identifier of the Booking.",
             example = "1", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Long id;
