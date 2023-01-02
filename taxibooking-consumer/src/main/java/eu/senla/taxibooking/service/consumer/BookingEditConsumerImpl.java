@@ -21,7 +21,7 @@ public class BookingEditConsumerImpl implements BookingEditConsumer {
     private BookingDtoMapper bookingDtoMapper;
 
     @Override
-    @RabbitListener(queues = "${spring.rabbitmq.edit_booking_queue}")
+    @RabbitListener(queues = "${rabbitmq.edit_booking_queue}")
     public void updateBooking(BookingDto booking) {
         try {
             bookingService.updateBooking(bookingDtoMapper.bookingDtoToBooking(booking));

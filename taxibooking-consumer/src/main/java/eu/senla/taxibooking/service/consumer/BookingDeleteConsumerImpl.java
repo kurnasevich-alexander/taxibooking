@@ -16,7 +16,7 @@ public class BookingDeleteConsumerImpl implements BookingDeleteConsumer {
     private BookingService bookingService;
 
     @Override
-    @RabbitListener(queues = "${spring.rabbitmq.delete_booking_queue}")
+    @RabbitListener(queues = "${rabbitmq.delete_booking_queue}")
     public void deleteBooking(Long id) {
         try {
             bookingService.deleteBooking(id);

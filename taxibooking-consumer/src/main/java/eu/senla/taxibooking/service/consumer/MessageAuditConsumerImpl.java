@@ -20,7 +20,7 @@ public class MessageAuditConsumerImpl implements MessageAuditConsumer {
     private BookingDtoMapper bookingDtoMapper;
 
     @Override
-    @RabbitListener(queues = "${spring.rabbitmq.message_booking_queue}")
+    @RabbitListener(queues = "${rabbitmq.message_booking_queue}")
     public void auditMessage(Message message) {
         var body = new String(message.getBody());
         log.info("Received message with routing key: {} || Message body: {}",

@@ -18,7 +18,7 @@ public class BookingAddConsumerImpl implements BookingAddConsumer {
     private BookingDtoMapper bookingDtoMapper;
 
     @Override
-    @RabbitListener(queues = "${spring.rabbitmq.add_booking_queue}")
+    @RabbitListener(queues = "${rabbitmq.add_booking_queue}")
     public void addBooking(BookingDto booking) {
         bookingService.addBooking(bookingDtoMapper.bookingDtoToBooking(booking));
     }
