@@ -1,4 +1,4 @@
-package eu.senla.taxibooking_producer;
+package eu.senla.taxibooking.producer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

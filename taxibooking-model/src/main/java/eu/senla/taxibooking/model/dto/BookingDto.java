@@ -1,5 +1,10 @@
-package eu.senla.taxibooking_model.dto;
+package eu.senla.taxibooking.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.OffsetDateTimeSerializer;
+import eu.senla.taxibooking.model.util.OffsetDateTimeDeserializer;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,6 +38,9 @@ public class BookingDto implements Serializable {
     @Schema(description = "Time when passenger was picked up.",
             example = "2000-11-19T14:23:07.32478+01:00", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull(groups = OnCreate.class)
+    @JsonSerialize(using = OffsetDateTimeSerializer.class)
+    @JsonDeserialize(using = OffsetDateTimeDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSXXX")
     private OffsetDateTime pickupTime;
     @Schema(description = "Is taxi required as soon as possible boolean flag.",
             example = "true", requiredMode = Schema.RequiredMode.REQUIRED)
@@ -60,9 +68,15 @@ public class BookingDto implements Serializable {
     private Float rating;
     @Schema(description = "Time when booking was created.",
             example = "2000-11-19T14:23:07.32478+01:00", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @JsonSerialize(using = OffsetDateTimeSerializer.class)
+    @JsonDeserialize(using = OffsetDateTimeDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSXXX")
     private OffsetDateTime createdOn;
     @Schema(description = "Time of last update of the booking.",
             example = "2000-11-19T14:23:07.32478+01:00", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @JsonSerialize(using = OffsetDateTimeSerializer.class)
+    @JsonDeserialize(using = OffsetDateTimeDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSXXX")
     private OffsetDateTime lastModifiedOn;
     @Schema(description = "Collection of trip waypoints.", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotEmpty(groups = OnCreate.class)

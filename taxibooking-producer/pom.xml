@@ -75,7 +75,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>2.7.6</version>
                 <configuration>
-                    <mainClass>eu.senla.taxibooking_producer.BookingProducerApp</mainClass>
+                    <mainClass>eu.senla.taxibooking.producer.BookingProducerApp</mainClass>
                 </configuration>
                 <executions>
                     <execution>

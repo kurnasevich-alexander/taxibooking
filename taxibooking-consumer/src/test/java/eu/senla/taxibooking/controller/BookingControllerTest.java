@@ -32,6 +32,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class BookingControllerTest {
 
+    public static final String NOT_FOUND_STATUS_CODE = "404";
+
     @Container
     public static PostgreSQLContainer postgreSQLContainer;
 
@@ -130,7 +132,7 @@ public class BookingControllerTest {
         mvc.perform(get("/bookings/112"))
                 .andExpect(status().isNotFound())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.statusCode").value("404"))
+                .andExpect(jsonPath("$.statusCode").value(NOT_FOUND_STATUS_CODE))
                 .andExpect(jsonPath("$.message").value("Booking not found id: 112"))
                 .andExpect(jsonPath("$.timestamp", notNullValue()));
     }
@@ -256,7 +258,7 @@ public class BookingControllerTest {
                         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.statusCode").value("404"))
+                .andExpect(jsonPath("$.statusCode").value(NOT_FOUND_STATUS_CODE))
                 .andExpect(jsonPath("$.message").value("Booking not found id: 112"))
                 .andExpect(jsonPath("$.timestamp", notNullValue()));
     }

@@ -1,6 +1,7 @@
-package eu.senla.taxibooking_producer.controller;
+package eu.senla.taxibooking.producer.controller;
 
-import eu.senla.taxibooking_model.exception.ApiErrorDto;
+import eu.senla.taxibooking.model.exception.ApiErrorDto;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
+@Slf4j
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
@@ -25,6 +27,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
                 .message(ex.getMessage())
                 .timestamp(OffsetDateTime.now())
                 .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value()).build();
+        log.error(String.valueOf(ex));
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

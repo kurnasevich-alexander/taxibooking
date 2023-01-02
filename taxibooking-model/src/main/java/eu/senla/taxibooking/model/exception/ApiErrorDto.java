@@ -1,4 +1,4 @@
-package eu.senla.taxibooking_model.exception;
+package eu.senla.taxibooking.model.exception;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

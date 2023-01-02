@@ -1,6 +1,6 @@
 package eu.senla.taxibooking.service.mapper;
 
-import eu.senla.taxibooking_model.dto.BookingDto;
+import eu.senla.taxibooking.model.dto.BookingDto;
 import eu.senla.taxibooking.entity.Booking;
 import org.mapstruct.Mapper;
 import org.springframework.data.domain.Page;

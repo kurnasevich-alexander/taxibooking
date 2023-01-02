@@ -1,20 +1,18 @@
 package eu.senla.taxibooking.service.consumer;
 
-import eu.senla.taxibooking.api.service.consumer.BookingEditConsumer;
 import eu.senla.taxibooking.api.service.BookingService;
+import eu.senla.taxibooking.api.service.consumer.BookingEditConsumer;
 import eu.senla.taxibooking.exception.EntityNotFoundException;
+import eu.senla.taxibooking.model.dto.BookingDto;
 import eu.senla.taxibooking.service.mapper.BookingDtoMapper;
-import eu.senla.taxibooking_model.dto.BookingDto;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class BookingEditConsumerImpl implements BookingEditConsumer {
-
-    private static final Logger logger = LoggerFactory.getLogger(BookingEditConsumerImpl.class);
 
     @Autowired
     private BookingService bookingService;
@@ -28,7 +26,7 @@ public class BookingEditConsumerImpl implements BookingEditConsumer {
         try {
             bookingService.updateBooking(bookingDtoMapper.bookingDtoToBooking(booking));
         } catch (EntityNotFoundException ex) {
-            logger.info(ex.getLocalizedMessage());
+            log.info(ex.getLocalizedMessage());
         }
     }
 

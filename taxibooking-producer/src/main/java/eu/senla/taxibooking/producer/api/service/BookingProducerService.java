@@ -1,6 +1,6 @@
-package eu.senla.taxibooking_producer.api.service;
+package eu.senla.taxibooking.producer.api.service;
 
-import eu.senla.taxibooking_model.dto.BookingDto;
+import eu.senla.taxibooking.model.dto.BookingDto;
 
 public interface BookingProducerService {
 

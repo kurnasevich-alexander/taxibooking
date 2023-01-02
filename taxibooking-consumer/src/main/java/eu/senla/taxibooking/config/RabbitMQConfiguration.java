@@ -1,93 +1,98 @@
 package eu.senla.taxibooking.config;
 
 import org.springframework.amqp.core.*;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.amqp.support.converter.MessageConverter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMQConfiguration {
 
-    @Value("${spring.rabbitmq.add_booking_queue}")
-    private String addBookingQueue;
+    @Autowired
+    private RabbitMQProperties properties;
 
-    @Value("${spring.rabbitmq.edit_booking_queue}")
-    private String editBookingQueue;
+    @Bean
+    public RabbitTemplate rabbitTemplate(final ConnectionFactory connectionFactory) {
+        final var rabbitTemplate = new RabbitTemplate(connectionFactory);
+        rabbitTemplate.setMessageConverter(producerJackson2MessageConverter());
+        return rabbitTemplate;
+    }
 
-    @Value("${spring.rabbitmq.delete_booking_queue}")
-    private String deleteBookingQueue;
-
-    @Value("${spring.rabbitmq.message_booking_queue}")
-    private String messageBookingQueue;
-
-    @Value("${spring.rabbitmq.message_exchange}")
-    private String messageExchange;
-
-    @Value("${spring.rabbitmq.booking_exchange}")
-    private String bookingExchange;
-
-    @Value("${spring.rabbitmq.add_booking_routing_key}")
-    private String addBookingRK;
-
-    @Value("${spring.rabbitmq.edit_booking_routing_key}")
-    private String editBookingRK;
-
-    @Value("${spring.rabbitmq.delete_booking_routing_key}")
-    private String deleteBookingRK;
+    @Bean
+    public MessageConverter producerJackson2MessageConverter() {
+        return new Jackson2JsonMessageConverter();
+    }
 
     @Bean
     Queue addQueue() {
-        return new Queue(addBookingQueue, false);
+        return new Queue(properties.getAddBookingQueue(), false);
     }
 
     @Bean
     Queue editQueue() {
-        return new Queue(editBookingQueue, false);
+        return new Queue(properties.getEditBookingQueue(), false);
     }
 
     @Bean
     Queue deleteQueue() {
-        return new Queue(deleteBookingQueue, false);
+        return new Queue(properties.getDeleteBookingQueue(), false);
     }
 
     @Bean
     Queue messageQueue() {
-        return new Queue(messageBookingQueue, false);
+        return new Queue(properties.getMessageBookingQueue(), false);
     }
 
     @Bean
     FanoutExchange messageExchange() {
-        return new FanoutExchange(messageExchange);
+        return new FanoutExchange(properties.getMessageExchange());
     }
 
     @Bean
     DirectExchange bookingExchange() {
-        return new DirectExchange(bookingExchange);
+        return new DirectExchange(properties.getBookingExchange());
     }
 
     @Bean
     Binding bookingExchangeBinding(DirectExchange bookingExchange, FanoutExchange messageExchange) {
-        return BindingBuilder.bind(bookingExchange).to(messageExchange);
+        return BindingBuilder
+                .bind(bookingExchange)
+                .to(messageExchange);
     }
 
     @Bean
     Binding messageQueueBinding(Queue messageQueue, FanoutExchange messageExchange) {
-        return BindingBuilder.bind(messageQueue).to(messageExchange);
+        return BindingBuilder
+                .bind(messageQueue)
+                .to(messageExchange);
     }
 
     @Bean
     Binding addQueueBinding(Queue addQueue, DirectExchange bookingExchange) {
-        return BindingBuilder.bind(addQueue).to(bookingExchange).with(addBookingRK);
+        return BindingBuilder
+                .bind(addQueue)
+                .to(bookingExchange)
+                .with(properties.getAddBookingRoutingKey());
     }
 
     @Bean
     Binding editQueueBinding(Queue editQueue, DirectExchange bookingExchange) {
-        return BindingBuilder.bind(editQueue).to(bookingExchange).with(editBookingRK);
+        return BindingBuilder
+                .bind(editQueue)
+                .to(bookingExchange)
+                .with(properties.getEditBookingRoutingKey());
     }
 
     @Bean
     Binding deleteQueueBinding(Queue deleteQueue, DirectExchange bookingExchange) {
-        return BindingBuilder.bind(deleteQueue).to(bookingExchange).with(deleteBookingRK);
+        return BindingBuilder
+                .bind(deleteQueue)
+                .to(bookingExchange)
+                .with(properties.getDeleteBookingRoutingKey());
     }
 
 }

@@ -3,18 +3,15 @@ package eu.senla.taxibooking.service.consumer;
 import eu.senla.taxibooking.api.service.BookingService;
 import eu.senla.taxibooking.api.service.consumer.MessageAuditConsumer;
 import eu.senla.taxibooking.service.mapper.BookingDtoMapper;
-import org.apache.commons.lang3.SerializationUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class MessageAuditConsumerImpl implements MessageAuditConsumer {
-
-    private static final Logger logger = LoggerFactory.getLogger(MessageAuditConsumerImpl.class);
 
     @Autowired
     private BookingService bookingService;
@@ -25,9 +22,9 @@ public class MessageAuditConsumerImpl implements MessageAuditConsumer {
     @Override
     @RabbitListener(queues = "${spring.rabbitmq.message_booking_queue}")
     public void auditMessage(Message message) {
-        var body = SerializationUtils.deserialize(message.getBody());
-        logger.info("Received message with routing key: " + message.getMessageProperties().getReceivedRoutingKey() +
-                " || Message body: " + body.toString());
+        var body = new String(message.getBody());
+        log.info("Received message with routing key: {} || Message body: {}",
+                message.getMessageProperties().getReceivedRoutingKey(), body);
     }
 
 }
