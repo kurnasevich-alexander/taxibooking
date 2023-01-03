@@ -28,6 +28,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
                 .message(ex.getMessage())
                 .timestamp(OffsetDateTime.now())
                 .statusCode(HttpStatus.NOT_FOUND.value()).build();
+        log.error("Exception was caught in RestResponseEntityExceptionHandler: ", ex);
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 

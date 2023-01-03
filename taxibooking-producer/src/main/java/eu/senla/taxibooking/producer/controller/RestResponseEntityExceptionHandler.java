@@ -27,7 +27,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
                 .message(ex.getMessage())
                 .timestamp(OffsetDateTime.now())
                 .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value()).build();
-        log.error(String.valueOf(ex));
+            log.error("Exception was caught in RestResponseEntityExceptionHandler: ", ex);
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

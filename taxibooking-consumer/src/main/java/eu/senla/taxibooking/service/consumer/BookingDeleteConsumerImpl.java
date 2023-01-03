@@ -16,12 +16,12 @@ public class BookingDeleteConsumerImpl implements BookingDeleteConsumer {
     private BookingService bookingService;
 
     @Override
-    @RabbitListener(queues = "${rabbitmq.delete_booking_queue}")
+    @RabbitListener(queues = "${taxibooking.rabbitmq.delete_booking_queue}")
     public void deleteBooking(Long id) {
         try {
             bookingService.deleteBooking(id);
         } catch (EntityNotFoundException ex) {
-            log.info(ex.getLocalizedMessage());
+            log.info("Received a request to delete a non-existent booking: ", ex);
         }
     }
 

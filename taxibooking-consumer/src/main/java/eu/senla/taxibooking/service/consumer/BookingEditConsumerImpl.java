@@ -21,12 +21,12 @@ public class BookingEditConsumerImpl implements BookingEditConsumer {
     private BookingDtoMapper bookingDtoMapper;
 
     @Override
-    @RabbitListener(queues = "${rabbitmq.edit_booking_queue}")
+    @RabbitListener(queues = "${taxibooking.rabbitmq.edit_booking_queue}")
     public void updateBooking(BookingDto booking) {
         try {
             bookingService.updateBooking(bookingDtoMapper.bookingDtoToBooking(booking));
         } catch (EntityNotFoundException ex) {
-            log.info(ex.getLocalizedMessage());
+            log.info("Received a request to update a non-existent booking: ", ex);
         }
     }
 
