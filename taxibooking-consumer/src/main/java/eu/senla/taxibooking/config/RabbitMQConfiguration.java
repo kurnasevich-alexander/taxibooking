@@ -30,22 +30,22 @@ public class RabbitMQConfiguration {
 
     @Bean
     Queue addQueue() {
-        return new Queue(properties.getAddBookingQueue(), false);
+        return new Queue(properties.getAddBookingQueue());
     }
 
     @Bean
     Queue editQueue() {
-        return new Queue(properties.getEditBookingQueue(), false);
+        return new Queue(properties.getEditBookingQueue());
     }
 
     @Bean
     Queue deleteQueue() {
-        return new Queue(properties.getDeleteBookingQueue(), false);
+        return new Queue(properties.getDeleteBookingQueue());
     }
 
     @Bean
     Queue messageQueue() {
-        return new Queue(properties.getMessageBookingQueue(), false);
+        return new Queue(properties.getMessageBookingQueue());
     }
 
     @Bean
