@@ -1,0 +1,25 @@
+spring:
+  rabbitmq:
+    username: ${RMQ_USERNAME}
+    password: ${RMQ_PASSWORD}
+    host: ${RMQ_HOST}
+    port: 5672
+
+taxibooking:
+  rabbitmq:
+    message_exchange: message_exchange
+    booking_exchange: booking_exchange
+    add_booking_queue: add_booking_queue
+    edit_booking_queue: edit_booking_queue
+    delete_booking_queue: delete_booking_queue
+    message_booking_queue: message_booking_queue
+    add_booking_routing_key: add_booking
+    edit_booking_routing_key: edit_booking
+    delete_booking_routing_key: delete_booking
+
+logging:
+  level:
+    root: info
+
+server:
+  port: 8081

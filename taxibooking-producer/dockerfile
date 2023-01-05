@@ -1,0 +1,5 @@
+FROM openjdk:17
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} taxibooking-producer.jar
+EXPOSE 8081
+ENTRYPOINT ["java","-jar","/taxibooking-producer.jar", "${RMQ_PASSWORD}", "${RMQ_USERNAME}", "${RMQ_HOST}"]
